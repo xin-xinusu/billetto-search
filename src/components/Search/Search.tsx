@@ -38,7 +38,7 @@ const Search: React.FC = () => {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-semibold mb-4">Event Search</h1>
+      <h1 className="text-2xl font-semibold mb-4 text-white">Event Search</h1>
       <div className="flex gap-2 mb-4">
         <Input
           value={query}
