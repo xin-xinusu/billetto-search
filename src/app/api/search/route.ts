@@ -4,11 +4,12 @@ import OpenAI from 'openai';
 import NodeCache from 'node-cache';
 
 // Initialize Supabase and OpenAI clients
-const supabase = createClient(process.env.SUPABASE_URL as string, process.env.SUPABASE_ANON_KEY as string, {
-  // set up connection pooling to reduce connection time
-  headers: { Connection: 'keep-alive' },
-});
+const supabase = createClient(
+  process.env.SUPABASE_URL as string,
+  process.env.SUPABASE_ANON_KEY as string
+);
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY as string });
+
 
 // Cache setup - ensure caching for 5 mins
 const searchCache = new NodeCache({ stdTTL: 300, checkperiod: 60 }); 
