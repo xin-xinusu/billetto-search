@@ -48,16 +48,16 @@ const EventPage: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="max-w-7xl mx-auto space-y-4 sm:pt-4 sm:mt-0 border-b border-gray-700 pb-10 sm:px-4">
       {/* Breadcrumb Navigation */}
       <Breadcrumb
         category={event.categorization.category_localized}
         subcategory={event.categorization.subcategory_localized}
         type={event.categorization.type_localized}
       />
-      <h1>{event.title}</h1>
+      <h1 className="font-bold text-gray-50 text-2xl leading-9 hidden lg:block">{event.title}</h1>
       {/* Main Content */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-4">
+      <div className="grid gap-4 items-start lg:grid-cols-3">
         {/* Left Column */}
         <div className="lg:col-span-2">
           <EventImage src={event.image_link} alt={event.title} />
@@ -72,16 +72,15 @@ const EventPage: React.FC = () => {
 
           <FAQ />
 
-          <OrganiserInfo name={event.organiser.name} />
+          <OrganiserInfo organiser={event.organiser} />
         </div>
 
         {/* Right Column (Sticky Sidebar) */}
         <div>
           <EventDetailsCard
-            price={event.minimum_price.amount_in_cents / 100}
-            currency={event.minimum_price.currency}
             availability={event.availability}
-            attendees={event.attendees}
+            price={event.minimum_price.amount_in_cents}
+            currency={event.minimum_price.currency}
             location={{
               location_name: event.location.location_name,
               address_line: event.location.address_line,
@@ -90,11 +89,8 @@ const EventPage: React.FC = () => {
             }}
             startdate={event.startdate}
             enddate={event.enddate}
-            categorization={{
-              category_localized: event.categorization.category_localized,
-              subcategory_localized: event.categorization.subcategory_localized,
-              type_localized: event.categorization.type_localized,
-            }}
+            attendees={event.attendees.slice(0, 12)}
+            categorization={event.categorization}
           />
         </div>
       </div>

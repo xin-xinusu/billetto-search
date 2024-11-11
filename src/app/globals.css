@@ -21,8 +21,13 @@ body {
 }
 
 a {
-  color: inherit;
+  color: #1377fb;
   text-decoration: none;
+  background-color: transparent;
+  outline: none;
+  cursor: pointer;
+  transition: color .3s;
+  -webkit-text-decoration-skip: objects;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -31,8 +36,36 @@ a {
   }
 }
 
+.shadow-sm {
+  --tw-shadow: 0 1px 2px 0 rgba(0, 0, 0, .05) !important;
+  --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color) !important;
+  box-shadow: 0 0 #0000, 0 0 #0000, 0 1px 2px 0 rgba(0, 0, 0, .05) !important;
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow) !important;
+}
+
 @layer base {
   :root {
+    --brand-50: #d9ecff;
+    --brand-100: #86c1fc;
+    --brand-200: #5eacfb;
+    --brand-300: #3698fa;
+    --brand-400: #0e83f9;
+    --brand-500: #056fda;
+    --brand-600: #0453a3;
+    --brand-700: #02376c;
+    --brand-800: #011b35;
+    --brand-900: #000;
+    --brand-secondary-0: #fff;
+    --brand-secondary-50: #f9fafb;
+    --brand-secondary-100: #f3f4f6;
+    --brand-secondary-200: #e5e7eb;
+    --brand-secondary-300: #d1d5db;
+    --brand-secondary-400: #9ca3af;
+    --brand-secondary-500: #6b7280;
+    --brand-secondary-600: #4b5563;
+    --brand-secondary-700: #374151;
+    --brand-secondary-800: #1f2937;
+    --brand-secondary-900: #111827;
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;

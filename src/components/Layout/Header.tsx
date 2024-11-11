@@ -8,7 +8,7 @@ const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="text-white p-4" style={{backgroundColor: '#1b1d1e'}}>
+    <header className="sticky top-0 z-200 shadow bg-gray-900 px-2 sm:px-4 lg:px-8 flex items-center justify-between h-16" style={{backgroundColor: '#1b1d1e'}}>
       <div className="container mx-auto flex items-center justify-between">
         {/* Logo - Hidden on mobile */}
         <Link href="/" className="hidden md:flex items-center space-x-2">

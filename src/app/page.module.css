@@ -16,6 +16,10 @@
   font-family: var(--font-geist-sans);
 }
 
+.leading-none {
+  line-height: 1 !important;
+}
+
 @media (prefers-color-scheme: dark) {
   .page {
     --gray-rgb: 255, 255, 255;

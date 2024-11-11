@@ -8,13 +8,21 @@ interface BreadcrumbProps {
 
 const Breadcrumb: React.FC<BreadcrumbProps> = ({ category, subcategory, type }) => {
   return (
-    <nav className="text-gray-500 text-sm mb-4">
-      <ul className="flex items-center space-x-2">
-        <li className="hover:underline cursor-pointer">{type}</li>
+    <nav className="hidden lg:flex pb-4">
+      <ul className="flex text-sm items-center space-x-4 list-none m-0 p-0">
+        <li className="hover:underline cursor-pointer"><div className="text-white focus:ring">{type}</div></li>
         <li>/</li>
-        <li className="hover:underline cursor-pointer">{category}</li>
+        <li className="hover:underline cursor-pointer">
+          <div className="flex items-center gap-4">
+            <div className="text-white focus:ring">{category}</div>
+          </div>
+        </li>
         <li>/</li>
-        <li className="font-semibold">{subcategory}</li>
+        <li className="hover:underline cursor-pointer">
+          <div className="flex items-center gap-4">
+            <div className="text-white focus:ring">{subcategory}</div>
+          </div>
+        </li>
       </ul>
     </nav>
   );

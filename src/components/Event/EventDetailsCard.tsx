@@ -1,31 +1,11 @@
+import React from "react";
 import Attendees from "./Attendees";
+import TicketInfo from "./TicketInfo";
 
-const EventDetailsCard = ({
-  price,
-  currency,
-  attendees,
-  availability,
-  location,
-  startdate,
-  enddate,
-  categorization,
-}: {
-  price: number;
-  currency: string;
-  attendees: {
-    id: string;
-    type: string;
-    attributes: {
-      name: string;
-      has_profile_picture: boolean;
-      profile_picture_url: string;
-      slug: string;
-    };
-    links: {
-      self: string;
-    };
-  }[];
-  availability: boolean;
+interface EventDetailsCardProps {
+  availability: string,
+  price: number,
+  currency: string,
   location: {
     location_name: string;
     address_line: string;
@@ -34,56 +14,132 @@ const EventDetailsCard = ({
   };
   startdate: string;
   enddate: string;
+  attendees: Array<{ avatar: string; name: string }>;
   categorization: {
-    category_localized: string;
-    subcategory_localized: string;
-    type_localized: string;
+    category: string,
+    category_localized: string,
+    subcategory: string,
+    subcategory_localized: string,
+    type: string,
+    type_localized: string,
   };
-}) => (
-  <div className="p-4 bg-gray-800 text-white rounded-lg sticky top-16 z-10 space-y-4">
-    {/* Price and Tickets */}
-    <h3 className="text-xl font-bold">From {currency} {(price * 100).toFixed(2)}</h3>
-    <button className="bg-blue-500 w-full py-2 rounded-lg">Get Tickets</button>
-    <button className="border w-full py-2 rounded-lg">Share Event</button>
-    {!availability && <p className="text-red-500 mt-2">Sold Out</p>}
+}
 
-    {/* Location */}
-    <div>
-      <h4 className="text-lg font-semibold">Location</h4>
-      <p>{location.location_name}</p>
-      <p>{location.address_line}</p>
-      <p>
-        {location.city}, {location.postal_code}
-      </p>
-    </div>
+function generateTags(categorization: any, location: any): string[] {
+  const tags: string[] = [];
 
-    {/* Date */}
-    <div>
-      <h4 className="text-lg font-semibold">Date</h4>
-      <p>
-        {new Date(startdate).toLocaleString()} -{" "}
-        {new Date(enddate).toLocaleString()}
-      </p>
-    </div>
+  // Add location-based tags
+  if (location.city) {
+    tags.push(`Events in ${location.city}`);
+  }
+  if (categorization.type_localized && location.city) {
+    tags.push(`${categorization.type_localized} in ${location.city}`);
+  }
+  if (categorization.category_localized && location.city) {
+    tags.push(`${categorization.category_localized} in ${location.city}`);
+  }
+  if (categorization.subcategory_localized && location.city) {
+    tags.push(`${categorization.subcategory_localized} in ${location.city}`);
+  }
 
-    {/* Tags */}
-    <div>
-      <h4 className="text-lg font-semibold">Tags</h4>
-      <div className="flex flex-wrap gap-2">
-        <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">
-          {categorization.category_localized}
-        </span>
-        <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">
-          {categorization.subcategory_localized}
-        </span>
-        <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">
-          {categorization.type_localized}
-        </span>
+  return tags;
+}
+
+const EventDetailsCard: React.FC<EventDetailsCardProps> = ({
+  availability,
+  price,
+  currency,
+  location,
+  startdate,
+  enddate,
+  attendees,
+  categorization
+}) => {
+
+  const tags = generateTags(categorization, location);
+  
+  return (
+    <div className="h-full lg:row-start-1 lg:row-end-7 lg:col-start-3 has-[:focus-visible]:overflow-hidden [&>*:first-child]:has-[:focus-visible]:top-0">
+
+      <TicketInfo 
+        price={price}
+        currency={currency}
+        availability={availability}
+      />
+      <div className="rounded-lg bg-gray-800 p-4 lg:p-6 mt-4 hidden lg:block">
+        <div className="space-y-8 pt-4">
+          {/* Location Section */}
+          <div>
+            <h2 className="text-sm text-white font-bold leading-4 m-0">Location</h2>
+            <span className="text-gray-300 text-sm">{location.location_name}</span>
+            <span className="text-gray-300 text-sm">{location.address_line}</span>
+            <span className="text-gray-300 text-sm">
+              {location.city}, {location.postal_code}
+            </span>
+          </div>
+
+          {/* Date Section */}
+          <div className="space-y-4 border-gray-700 border-t pt-4 first:pt-0 first:border-none">
+            <h4 className="text-sm text-white font-bold leading-4 m-0">Date</h4>
+            <div className="text-gray-300 text-sm">
+              {new Date(startdate).toLocaleString()} -{" "}
+              {new Date(enddate).toLocaleString()}
+            </div>
+          </div>
+
+          {/* Attendees Section */}
+          <Attendees attendees={attendees} />
+
+          {/* Tags Section */}
+          <div className="space-y-4 border-gray-700 border-t pt-4 first:pt-0 first:border-none">
+            <h2 className="text-sm text-white font-bold leading-4 m-0">Tags</h2>
+            <div className="flex gap-2 items-center flex-wrap">
+              {tags.map((tag, index) => (
+                <a
+                  key={index}
+                  className="inline-flex items-center border font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-400 p-1.5 text-xs border-brand-200 text-brand-200 hover:text-brand-100 p-2 rounded-full"
+                >
+                  <span className="leading-none">
+                    {tag}
+                  </span>
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Footer Section */}
+          <div className="space-y-4 border-gray-700 border-t pt-4 first:pt-0 first:border-none">
+            <img
+              src="https://bun2.billetto.com/assets/peace_of_mind-41e3910ac01c07b540c284afba8089ae79d68dc40f4401db24339662240beab5.svg"
+              alt="Billetto"
+              className="h-10 w-auto"
+            />
+            <div className="text-gray-300 text-sm">
+              Book with confidence: Billetto guarantees refunds for cancelled
+              events, ensuring your peace of mind.{" "}
+              <a
+                href="#"
+                className="text-blue-500 hover:underline"
+              >
+                Learn more
+              </a>
+            </div>
+          </div>
+          <div className="space-y-4 border-gray-700 border-t pt-4 first:pt-0 first:border-none">
+            <div className="text-gray-300 text-sm">
+              Payment methods accepted:
+            </div>
+            <img src="https://bun2.billetto.com/assets/icon/apple-pay-08b333e5218a9bea5932811a6ee108d6da7af5a196d23994081a7a5df63e9aa9.svg" alt="Apple Pay" className="w-10 inline-flex" loading="lazy" />
+            <img src="https://bun2.billetto.com/assets/icon/google-pay-065e42966e3ce795563cfa7e500d0ed74afa6c8218062a12ef62924e2d130fd9.svg" alt="Google Pay" className="w-10 inline-flex" loading="lazy" />
+            <img src="https://bun2.billetto.com/assets/icon/visa-afc0fa1fdb54520c13c2c7e2ec5149503ed390a5c3cf1f9e7792e97e541e02b7.svg" alt="Visa" className="w-10 inline-flex" loading="lazy" />
+            <img src="https://bun2.billetto.com/assets/icon/mastercard-3a2f29c5e46a83b7d512a5f90c8134079685e0aa1338b96811d2819524da69bb.svg" alt="MasterCard" className="w-10 inline-flex" loading="lazy" />
+            <img src="https://bun2.billetto.com/assets/icon/amex-c4da4c43ad97d64f36a879b0dba214482e4ca40737be9f2af7f6e90afbb9de06.svg" alt="American Express" className="w-10 inline-flex" loading="lazy" />
+            <img src="https://bun2.billetto.com/assets/icon/klarna-20cc6aae14dbb09fafe45d082a6b15ecbfef4ba3b0e0a494eb37f45bf4c19a79.svg" alt="Klarna" className="w-10 inline-flex" loading="lazy" />
+          </div>
+        </div>
       </div>
     </div>
-
-    <Attendees attendees={attendees} />
-  </div>
-);
+  )
+};
 
 export default EventDetailsCard;
