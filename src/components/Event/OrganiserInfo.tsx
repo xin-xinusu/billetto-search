@@ -38,54 +38,72 @@ const OrganiserInfo: React.FC<OrganiserInfoProps> = ({ organiser }) => {
   } = organiser.attributes;
 
   return (
-    <div className="p-4 bg-gray-900 text-white rounded-lg mt-4">
-      {/* Header */}
-      <h4 className="text-lg font-semibold mb-4">Organiser</h4>
+    <div className="lg:col-span-2 pt-4">
+      <div className="sm:rounded-lg bg-gray-800 p-4 lg:p-6 space-y-4 group">
+        {/* Header */}
+        <h2 className='text-white group-hover:text-gray-300 font-bold leading-4 m-0'>Organiser</h2>
 
-      {/* Profile Section */}
-      <div className="flex items-start justify-between">
-        {/* Left Section: Profile Picture + Name/Description */}
-        <div className="flex items-start gap-4">
-          {/* Profile Picture */}
-          {profile_picture_url ? (
-            <img
-              src={profile_picture_url}
-              alt={`${name} profile`}
-              className="w-16 h-16 rounded-full"
-            />
-          ) : (
-            <div className="w-16 h-16 rounded-full bg-gray-700 flex items-center justify-center text-gray-400">
-              {name.charAt(0).toUpperCase()}
+        {/* Profile Section */}
+        <div className="flex justify-between items-center flex-wrap sm:flex-nowrap">
+          {/* Left Section: Profile Picture + Name/Description */}
+          <div>
+            <div className="text-white font-bold leading-4 block">
+              <div className="flex items-center gap-4">
+                <div className="shrink-0 size-12">
+                  {profile_picture_url ? (
+                    <img
+                      src={profile_picture_url}
+                      alt={`${name} profile`}
+                      className="size-12 rounded-full"
+                    />
+                  ) : (
+                    <div className="w-16 h-16 rounded-full bg-gray-700 flex items-center justify-center text-gray-400">
+                      {name.charAt(0).toUpperCase()}
+                    </div>
+                  )}
+                </div>
+
+                <div className="w-full grow">
+                  <h3 className="text-white m-0 text-lg leading-6 font-medium">
+                    {name}
+                    {verified && (
+                      <span className="text-blue-500 text-sm pl-4">✔ Verified</span>
+                    )}
+                  </h3>
+                  <p className="m-0 text-sm text-gray-400">Event Organiser</p>
+                </div>
+
+                <div className="inline-flex items-center border font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-400 rounded-md px-4 py-2 text-sm text-gray-50 bg-gray-800 hover:bg-gray-700">
+                  <button className="ml-4 mt-4 shrink-0 flex gap-4">
+                    <span className="leading-none">Contact</span>
+                  </button>
+                </div>
+
+              </div>
             </div>
-          )}
-        {/* Organiser Info */}
-        <div>
-          <h5 className="text-lg font-bold flex items-center gap-2">
-            {name}
-            {verified && (
-              <span className="text-blue-500 text-sm">✔ Verified</span>
+            {/* Profile Picture */}
+            
+            
+          {/* Organiser Info */}
+          <div>
+            
+            {profile_description && (
+              <div
+                className="text-gray-400 mt-2 text-sm"
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(profile_description),
+                }}
+              />
             )}
-          </h5>
-          {profile_description && (
-            <div
-              className="text-gray-400 mt-2 text-sm"
-              dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(profile_description),
-              }}
-            />
-          )}
-          {created_at && (
-            <p className="text-gray-500 text-xs mt-1">
-              Member since: {new Date(created_at).toLocaleDateString()}
-            </p>
-          )}
+            {created_at && (
+              <p className="text-gray-500 text-xs mt-1">
+                Member since: {new Date(created_at).toLocaleDateString()}
+              </p>
+            )}
+          </div>
         </div>
-      </div>
-
-       {/* Right Section: Contact Button */}
-       <button className="border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white py-2 px-4 rounded-lg">
-          Contact
-        </button>
+        
+        </div>
       </div>
     </div>
   );

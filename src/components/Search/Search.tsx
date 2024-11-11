@@ -44,7 +44,7 @@ const Search: React.FC = () => {
           value={query}
           onChange={(e) => handleSearch(e)}
           placeholder="Search for events..."
-          className="flex-1"
+          className="flex-1 text-white p-4"
         />
       </div>
 

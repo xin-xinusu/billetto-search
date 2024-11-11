@@ -64,7 +64,7 @@ const Map = ({
   }, [coordinates, locationName, address, accessToken]);
 
   return (
-    <div className="lg:col-span-2">
+    <div className="lg:col-span-2 pt-4">
       <details className='sm:rounded-lg bg-gray-800 p-4 lg:p-6 space-y-4 group'>
         <summary className='cursor-pointer relative w-full flex justify-between items-center text-left details-marker:hidden'>
           <h2 className='text-white group-hover:text-gray-300 font-bold leading-4 m-0'>

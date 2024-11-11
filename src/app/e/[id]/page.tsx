@@ -9,6 +9,7 @@ import Map from "@/components/Event/Map";
 import FAQ from "@/components/Event/FAQ";
 import OrganiserInfo from "@/components/Event/OrganiserInfo";
 import Attendees from "@/components/Event/Attendees";
+import Loader from "@/components/Loader/Loader";
 
 const EventPage: React.FC = () => {
   const { id } = useParams(); // Get the event ID from the route
@@ -40,7 +41,7 @@ const EventPage: React.FC = () => {
   }, [id]);
 
   if (loading) {
-    return <div className="text-center py-10">Loading...</div>;
+    return <div className="flex items-center justify-center min-h-screen"><Loader /></div>;
   }
 
   if (!event) {
@@ -61,18 +62,16 @@ const EventPage: React.FC = () => {
         {/* Left Column */}
         <div className="lg:col-span-2">
           <EventImage src={event.image_link} alt={event.title} />
-
           <EventDetails description={event.description} />
-
+          <OrganiserInfo organiser={event.organiser} />
           <Map
             locationName={event.location.location_name}
             address={`${event.location.address_line}, ${event.location.city}, ${event.location.country}`}
             coordinates={event.location.coordinates}
           />
 
-          <FAQ />
+          {/* <FAQ /> */}
 
-          <OrganiserInfo organiser={event.organiser} />
         </div>
 
         {/* Right Column (Sticky Sidebar) */}
