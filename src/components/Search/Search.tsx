@@ -3,7 +3,7 @@
 import React, { useCallback, useState } from 'react';
 import { Event } from '@/types/event';
 import Link from 'next/link';
-import Input from '../UI/Input';
+import Input from '../UI/input';
 
 const Search: React.FC = () => {
   const [query, setQuery] = useState('');
