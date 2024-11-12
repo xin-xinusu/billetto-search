@@ -2,8 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { generateMetadata } from "@/utils/generateMetadata";
-import { Metadata } from "next";
+import { generateMetadata, Metadata } from "@/utils/generateMetadata";
 import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
 import EventImage from "@/components/Event/EventImage";
 import EventDetails from "@/components/Event/EventDetails";
@@ -11,7 +10,6 @@ import EventDetailsCard from "@/components/Event/EventDetailsCard";
 import Map from "@/components/Event/Map";
 import FAQ from "@/components/Event/FAQ";
 import OrganiserInfo from "@/components/Event/OrganiserInfo";
-import Attendees from "@/components/Event/Attendees";
 import Loader from "@/components/Loader/Loader";
 
 const EventPage: React.FC = () => {
@@ -32,6 +30,7 @@ const EventPage: React.FC = () => {
         const data = await res.json();
         setEvent(data);
 
+        // Generate metadata for this event
         const meta = generateMetadata(data);
         setMetadata(meta);
       } catch (error) {
@@ -61,14 +60,30 @@ const EventPage: React.FC = () => {
         <>
           <title>{metadata.title}</title>
           <meta name="description" content={metadata.description} />
-          <meta property="og:title" content={metadata.openGraph?.title} />
-          <meta property="og:description" content={metadata.openGraph?.description} />
-          <meta property="og:image" content={metadata.openGraph?.images?.[0]?.url} />
-          <meta property="og:site_name" content={metadata.openGraph?.siteName} />
-          <meta name="twitter:card" content={metadata.twitter?.card} />
-          <meta name="twitter:title" content={metadata.twitter?.title} />
-          <meta name="twitter:description" content={metadata.twitter?.description} />
-          <meta name="twitter:image" content={metadata.twitter?.images?.[0]} />
+          {metadata.openGraph?.title && (
+            <meta property="og:title" content={metadata.openGraph.title} />
+          )}
+          {metadata.openGraph?.description && (
+            <meta property="og:description" content={metadata.openGraph.description} />
+          )}
+          {metadata.openGraph?.images?.[0]?.url && (
+            <meta property="og:image" content={metadata.openGraph.images[0].url} />
+          )}
+          {metadata.openGraph?.siteName && (
+            <meta property="og:site_name" content={metadata.openGraph.siteName} />
+          )}
+          {metadata.twitter?.card && (
+            <meta name="twitter:card" content={metadata.twitter.card} />
+          )}
+          {metadata.twitter?.title && (
+            <meta name="twitter:title" content={metadata.twitter.title} />
+          )}
+          {metadata.twitter?.description && (
+            <meta name="twitter:description" content={metadata.twitter.description} />
+          )}
+          {metadata.twitter?.images?.[0] && (
+            <meta name="twitter:image" content={metadata.twitter.images[0]} />
+          )}
         </>
       )}
 
