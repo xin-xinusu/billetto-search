@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import DOMPurify from 'dompurify';
-import Container from '../UI/container';
+import Container from '../UI/Container';
 
 interface EventDetailsProps {
   description: string;
