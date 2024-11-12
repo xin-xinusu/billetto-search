@@ -16,7 +16,17 @@ interface EventDetailsCardProps {
   };
   startdate: string;
   enddate: string;
-  attendees: Array<{ avatar: string; name: string }>;
+  attendees: Array<{ id: string;
+    type: string;
+    attributes: {
+      has_profile_picture: boolean;
+      name: string; // Can be an empty string
+      profile_picture_url: string; // Profile picture URL
+      slug: string;
+    };
+    links: {
+      self: string;
+    }; }>;
   categorization: {
     category: string,
     category_localized: string,
@@ -65,7 +75,7 @@ const EventDetailsCard: React.FC<EventDetailsCardProps> = ({
             <h4 className="text-sm text-white font-bold leading-4 m-0">Date</h4>
             <div className="text-gray-300 text-sm">
               {/* Format - User Friendly */}
-              {formatEventDate(startdate, enddate) }
+              {formatEventDate(startdate, enddate, 'Europe/Copenhagen') }
             </div>
           </div>
 
@@ -111,12 +121,12 @@ const EventDetailsCard: React.FC<EventDetailsCardProps> = ({
             <div className="text-gray-300 text-sm">
               Payment methods accepted:
             </div>
-            <img src="https://bun2.billetto.com/assets/icon/apple-pay-08b333e5218a9bea5932811a6ee108d6da7af5a196d23994081a7a5df63e9aa9.svg" alt="Apple Pay" className="w-10 inline-flex pr-2" loading="lazy" />
-            <img src="https://bun2.billetto.com/assets/icon/google-pay-065e42966e3ce795563cfa7e500d0ed74afa6c8218062a12ef62924e2d130fd9.svg" alt="Google Pay" className="w-10 inline-flex pr-2" loading="lazy" />
-            <img src="https://bun2.billetto.com/assets/icon/visa-afc0fa1fdb54520c13c2c7e2ec5149503ed390a5c3cf1f9e7792e97e541e02b7.svg" alt="Visa" className="w-10 inline-flex pr-2" loading="lazy" />
-            <img src="https://bun2.billetto.com/assets/icon/mastercard-3a2f29c5e46a83b7d512a5f90c8134079685e0aa1338b96811d2819524da69bb.svg" alt="MasterCard" className="w-10 inline-flex pr-2" loading="lazy" />
-            <img src="https://bun2.billetto.com/assets/icon/amex-c4da4c43ad97d64f36a879b0dba214482e4ca40737be9f2af7f6e90afbb9de06.svg" alt="American Express" className="w-10 inline-flex pr-2" loading="lazy" />
-            <img src="https://bun2.billetto.com/assets/icon/klarna-20cc6aae14dbb09fafe45d082a6b15ecbfef4ba3b0e0a494eb37f45bf4c19a79.svg" alt="Klarna" className="w-10 inline-flex pr-2" loading="lazy" />
+            <img src="https://bun2.billetto.com/assets/icon/apple-pay-08b333e5218a9bea5932811a6ee108d6da7af5a196d23994081a7a5df63e9aa9.svg" alt="Apple Pay" className="w-10 inline-flex pr-1" loading="lazy" />
+            <img src="https://bun2.billetto.com/assets/icon/google-pay-065e42966e3ce795563cfa7e500d0ed74afa6c8218062a12ef62924e2d130fd9.svg" alt="Google Pay" className="w-10 inline-flex pr-1" loading="lazy" />
+            <img src="https://bun2.billetto.com/assets/icon/visa-afc0fa1fdb54520c13c2c7e2ec5149503ed390a5c3cf1f9e7792e97e541e02b7.svg" alt="Visa" className="w-10 inline-flex pr-1" loading="lazy" />
+            <img src="https://bun2.billetto.com/assets/icon/mastercard-3a2f29c5e46a83b7d512a5f90c8134079685e0aa1338b96811d2819524da69bb.svg" alt="MasterCard" className="w-10 inline-flex pr-1" loading="lazy" />
+            <img src="https://bun2.billetto.com/assets/icon/amex-c4da4c43ad97d64f36a879b0dba214482e4ca40737be9f2af7f6e90afbb9de06.svg" alt="American Express" className="w-10 inline-flex pr-1" loading="lazy" />
+            <img src="https://bun2.billetto.com/assets/icon/klarna-20cc6aae14dbb09fafe45d082a6b15ecbfef4ba3b0e0a494eb37f45bf4c19a79.svg" alt="Klarna" className="w-10 inline-flex pr-1" loading="lazy" />
           </div>
         </div>
       </div>

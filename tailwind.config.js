@@ -100,6 +100,9 @@ module.exports = {
   				'5': 'hsl(var(--chart-5))'
   			}
   		},
+      margin: {
+        '5px': '5px',
+      },
       zIndex: {
         200: '200',
       }

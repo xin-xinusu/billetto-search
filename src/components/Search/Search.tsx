@@ -3,8 +3,7 @@
 import React, { useCallback, useState } from 'react';
 import { Event } from '@/types/event';
 import Link from 'next/link';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/UI/input";
 
 const Search: React.FC = () => {
   const [query, setQuery] = useState('');
@@ -44,7 +43,7 @@ const Search: React.FC = () => {
           value={query}
           onChange={(e) => handleSearch(e)}
           placeholder="Search for events..."
-          className="flex-1 text-white p-4"
+          className="flex-1 text-white p-4 border-white"
         />
       </div>
 

@@ -1,17 +1,72 @@
-'use client'
-import React, { useState } from "react";
+"use client";
+
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import Link from "next/link";
-import { Input } from "@/components/ui/input";
-import { Menu } from "lucide-react"; // Optional: Use an icon library if needed
+import { Menu } from "lucide-react";
+import { Event } from "@/types/event";
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState<Event[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const searchContainerRef = useRef<HTMLDivElement>(null); // Ref for search input and results
+
+  const handleSearch = useCallback(
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+      setQuery(value);
+
+      if (value.length > 2) {
+        setLoading(true);
+        try {
+          const res = await fetch(`/api/search?query=${encodeURIComponent(value)}`);
+          const data = await res.json();
+          setResults(data.results || []);
+        } catch (error) {
+          console.error("Error fetching search results:", error);
+          setResults([]);
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        setResults([]); // Clear results if query is less than 3 characters
+      }
+    },
+    []
+  );
+
+  const closeSearch = () => {
+    setQuery("");
+    setResults([]);
+  };
+
+  // Close search results when clicking outside the search area
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        searchContainerRef.current &&
+        !searchContainerRef.current.contains(event.target as Node)
+      ) {
+        closeSearch();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <nav className="sticky top-0 z-200 shadow bg-gray-900 px-2 sm:px-4 lg:px-8 flex items-center justify-between h-16">
       <div className="grow flex items-center gap-4">
-        {/* Logo - Hidden on mobile */}
-        <Link href="/" className="shrink-0 text-gray-900 dark:text-white focus:outline-none">
+        {/* Logo */}
+        <Link
+          href="/"
+          className="shrink-0 hidden lg:block text-gray-900 dark:text-white focus:ring focus:ring-white/50 focus:outline-none"
+        >
           <img
             src="/billetto-logo.png"
             alt="Billetto Logo"
@@ -19,53 +74,105 @@ const Header: React.FC = () => {
           />
         </Link>
 
-        {/* Search Bar - Full-width on mobile */}
-        <div className="grow hidden sm:block">
+        {/* Search Bar */}
+        <div className="grow hidden sm:block relative" ref={searchContainerRef}>
           <label htmlFor="search" className="sr-only">
             Search events
           </label>
-          <div id="instant-search">
-            <div className="relative">
-              {/* Icon */}
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  aria-hidden="true"
-                  className="z-10 w-5 h-5 text-gray-400 dark:text-gray-500"
-                >
-                  {/* Add SVG Path here */}
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21 21l-4.35-4.35M9.5 18A8.5 8.5 0 109.5 1a8.5 8.5 0 000 17z"
-                  />
-                </svg>
-              </div>
-              {/* Search Input */}
-              <form action="/en/search" className="relative">
-                <input
-                  id="search"
-                  name="text"
-                  type="search"
-                  placeholder="Search events"
-                  autoComplete="off"
-                  className="block w-full py-2 pl-10 pr-3 leading-5 text-gray-900 placeholder-gray-400 bg-white border rounded-full dark:bg-gray-800 dark:text-gray-50 focus:outline-none focus:border-gray-400 dark:focus:border-white focus:ring-gray-200 dark:focus:ring-gray-800 focus:text-gray-900 dark:focus:text-white sm:text-sm"
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                aria-hidden="true"
+                className="z-10 w-5 h-5 text-gray-400 dark:text-gray-500"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M21 21l-4.35-4.35M9.5 18A8.5 8.5 0 109.5 1a8.5 8.5 0 000 17z"
                 />
-              </form>
+              </svg>
             </div>
+            <input
+              id="search"
+              name="text"
+              type="search"
+              placeholder="Search events"
+              autoComplete="off"
+              value={query}
+              onChange={handleSearch}
+              className="block w-full py-2 pl-10 pr-3 leading-5 text-gray-900 placeholder-gray-400 bg-white border rounded-full dark:bg-gray-800 dark:text-gray-50 focus:outline-none focus:border-gray-400 dark:focus:border-white focus:ring-gray-200 dark:focus:ring-gray-800 focus:text-gray-900 dark:focus:text-white sm:text-sm"
+            />
           </div>
+          {/* Search Results Dropdown */}
+          {query.length > 2 && (
+            <div className="absolute top-12 left-0 w-full bg-white dark:bg-gray-800 shadow-lg rounded-lg z-50 max-h-60 overflow-y-auto">
+              {loading ? (
+                <p className="p-4 text-sm text-gray-500">Loading...</p>
+              ) : results.length > 0 ? (
+                results.map((event) => (
+                  <Link
+                    key={event.id}
+                    href={`/e/${event.id}`}
+                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+                    onClick={closeSearch}
+                  >
+                    <div className="flex items-center gap-3">
+                      {event.image_link && (
+                        <img
+                          src={event.image_link}
+                          alt={event.title || "Event Image"}
+                          className="w-10 h-10 rounded-md object-cover"
+                        />
+                      )}
+                      <div>
+                        <h3 className="text-sm font-semibold text-gray-800 dark:text-white">
+                          {event.title || "Untitled Event"}
+                        </h3>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                          {event.category}
+                        </p>
+                      </div>
+                    </div>
+                  </Link>
+                ))
+              ) : (
+                <p className="p-4 text-sm text-gray-500">No results found</p>
+              )}
+            </div>
+          )}
         </div>
 
-        {/* Desktop Navigation Links - hidden on mobile */}
+        {/* Desktop Navigation Links */}
         <nav className="grow flex items-center justify-end gap-2">
-          <Link href="/organise-event" className="hidden lg:block inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 border-b-2 border-white dark:border-gray-900 dark:hover:border-brand-200 hover:border-brand-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-gray-500">Organise event</Link>
-          <Link href="/help-center" className="hidden lg:block inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 border-b-2 border-white dark:border-gray-900 dark:hover:border-brand-200 hover:border-brand-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-gray-500">Help Center</Link>
-          <Link href="/login" className="hidden lg:block inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 border-b-2 border-white dark:border-gray-900 dark:hover:border-brand-200 hover:border-brand-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-gray-500">Log in</Link>
-          <Link href="/signup" className="hidden lg:block inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 border-b-2 border-white dark:border-gray-900 dark:hover:border-brand-200 hover:border-brand-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-gray-500">Sign up</Link>
+          <Link
+            href="/organise-event"
+            className="hidden lg:block inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 border-b-2 border-white dark:border-gray-900 dark:hover:border-brand-200 hover:border-brand-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-gray-500"
+          >
+            Organise event
+          </Link>
+          <Link
+            href="/help-center"
+            className="hidden lg:block inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 border-b-2 border-white dark:border-gray-900 dark:hover:border-brand-200 hover:border-brand-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-gray-500"
+          >
+            Help Center
+          </Link>
+          <Link
+            href="/login"
+            className="hidden lg:block inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 border-b-2 border-white dark:border-gray-900 dark:hover:border-brand-200 hover:border-brand-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-gray-500"
+          >
+            Log in
+          </Link>
+          <Link
+            href="/signup"
+            className="hidden lg:block inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 border-b-2 border-white dark:border-gray-900 dark:hover:border-brand-200 hover:border-brand-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-gray-500"
+          >
+            Sign up
+          </Link>
         </nav>
 
         {/* Mobile Menu Icon */}
@@ -76,16 +183,6 @@ const Header: React.FC = () => {
           <Menu className="w-6 h-6 text-white" />
         </button>
       </div>
-
-      {/* Mobile Dropdown Menu */}
-      {isMenuOpen && (
-        <div className="md:hidden mt-2 bg-gray-800 text-white rounded-lg shadow-lg p-4 space-y-2">
-          <Link href="/organise-event" className="hidden lg:block inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 border-b-2 border-white dark:border-gray-900 dark:hover:border-brand-200 hover:border-brand-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-gray-500">Organise event</Link>
-          <Link href="/help-center" className="hidden lg:block inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 border-b-2 border-white dark:border-gray-900 dark:hover:border-brand-200 hover:border-brand-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-gray-500">Help Center</Link>
-          <Link href="/login" className="hidden lg:block inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 border-b-2 border-white dark:border-gray-900 dark:hover:border-brand-200 hover:border-brand-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-gray-500">Log in</Link>
-          <Link href="/signup" className="hidden lg:block inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 border-b-2 border-white dark:border-gray-900 dark:hover:border-brand-200 hover:border-brand-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-gray-500">Sign up</Link>
-        </div>
-      )}
     </nav>
   );
 };

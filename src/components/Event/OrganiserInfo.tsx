@@ -66,9 +66,6 @@ const OrganiserInfo: React.FC<OrganiserInfoProps> = ({ organiser }) => {
                 <div className="w-full grow">
                   <h3 className="text-white m-0 text-lg leading-6 font-medium">
                     {name}
-                    {verified && (
-                      <span className="text-blue-500 text-sm pl-4">✔ Verified</span>
-                    )}
                   </h3>
                   <p className="m-0 text-sm text-gray-400">Event Organiser</p>
                 </div>

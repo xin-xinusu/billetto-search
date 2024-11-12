@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import mapboxgl, { Map as MapboxMap } from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import Accordion from '../UI/Accordion';
 
 const Map = ({
   locationName,
@@ -64,19 +65,11 @@ const Map = ({
   }, [coordinates, locationName, address, accessToken]);
 
   return (
-    <div className="lg:col-span-2 pt-4">
-      <details className='sm:rounded-lg bg-gray-800 p-4 lg:p-6 space-y-4 group'>
-        <summary className='cursor-pointer relative w-full flex justify-between items-center text-left details-marker:hidden'>
-          <h2 className='text-white group-hover:text-gray-300 font-bold leading-4 m-0'>
-            Venue
-          </h2>
-          <span className='ml-6 flex items-center'>
-            
-          </span>
-        </summary>
-        
-        {/* Map container */}
-        <div
+    <Accordion
+      title="Venue"
+    >
+      {/* Map container */}
+      <div
           ref={mapContainer}
           className="min-w-full mapboxgl-map"
           style={{ minHeight: '480px', minWidth: '300px' }}
@@ -88,19 +81,18 @@ const Map = ({
             <p className="text-sm text-gray-500">{address}</p>
           </div>
           <div className='w-full md:w-auto'>
-          <a
-            href={`https://www.google.com/maps/dir/?api=1&destination=${coordinates.latitude},${coordinates.longitude}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center border font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-400 rounded-md px-4 py-2 text-sm text-gray-50 bg-gray-800 hover:bg-gray-700"
-          >
-            Get Directions
-          </a>
+            <a
+              href={`https://www.google.com/maps/dir/?api=1&destination=${coordinates.latitude},${coordinates.longitude}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center border font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-400 rounded-md px-4 py-2 text-sm text-gray-50 bg-gray-800 hover:bg-gray-700"
+            >
+              Get Directions
+            </a>
           </div>
-          
         </div>
-      </details>
-    </div>
+
+    </Accordion>
   );
 };
 

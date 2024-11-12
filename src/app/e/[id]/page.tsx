@@ -16,6 +16,13 @@ const EventPage: React.FC = () => {
   const [event, setEvent] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
+  const faqQuestions = [
+    { 
+      question: 'I was not sure where to source this data so I thought a few random questions would do. Sorry.', 
+      answer: 'Did search and play around to find the available expanded version of a API but I wasnt about to source its endpoint, so this will need to do for display purposes. 🫤'
+    }
+  ]
+
   useEffect(() => {
     const fetchEventData = async () => {
       try {
@@ -70,7 +77,9 @@ const EventPage: React.FC = () => {
             coordinates={event.location.coordinates}
           />
 
-          {/* <FAQ /> */}
+          <FAQ
+            questionsArray={faqQuestions}
+          />
 
         </div>
 
@@ -88,7 +97,7 @@ const EventPage: React.FC = () => {
             }}
             startdate={event.startdate}
             enddate={event.enddate}
-            attendees={event.attendees.slice(0, 12)}
+            attendees={event.attendees}
             categorization={event.categorization}
           />
         </div>
