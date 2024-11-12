@@ -4,6 +4,7 @@ import React, { useState, useCallback, useRef, useEffect } from "react";
 import Link from "next/link";
 import { Menu } from "lucide-react";
 import { Event } from "@/types/event";
+import { formatEventDate } from "@/utils/date-functions";
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -134,7 +135,7 @@ const Header: React.FC = () => {
                           {event.title || "Untitled Event"}
                         </h3>
                         <p className="text-xs text-gray-500 dark:text-gray-400">
-                          {event.category}
+                          {event.location_name} | {formatEventDate(event.start_date, event.end_date)}
                         </p>
                       </div>
                     </div>
@@ -150,26 +151,26 @@ const Header: React.FC = () => {
         {/* Desktop Navigation Links */}
         <nav className="grow flex items-center justify-end gap-2">
           <Link
-            href="/organise-event"
-            className="hidden lg:block inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 border-b-2 border-white dark:border-gray-900 dark:hover:border-brand-200 hover:border-brand-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-gray-500"
+            href="#"
+            className="hidden lg:block inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 border-b-2 border-transparent hover:border-brand-500 dark:border-transparent dark:hover:border-brand-200 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-gray-500 transition-all duration-500"
           >
             Organise event
           </Link>
           <Link
-            href="/help-center"
-            className="hidden lg:block inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 border-b-2 border-white dark:border-gray-900 dark:hover:border-brand-200 hover:border-brand-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-gray-500"
+            href="#"
+            className="hidden lg:block inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 border-b-2 border-transparent hover:border-brand-500 dark:border-transparent dark:hover:border-brand-200 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-gray-500 transition-all duration-500"
           >
             Help Center
           </Link>
           <Link
-            href="/login"
-            className="hidden lg:block inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 border-b-2 border-white dark:border-gray-900 dark:hover:border-brand-200 hover:border-brand-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-gray-500"
+            href="#"
+            className="hidden lg:block inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 border-b-2 border-transparent hover:border-brand-500 dark:border-transparent dark:hover:border-brand-200 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-gray-500 transition-all duration-500"
           >
             Log in
           </Link>
           <Link
-            href="/signup"
-            className="hidden lg:block inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 border-b-2 border-white dark:border-gray-900 dark:hover:border-brand-200 hover:border-brand-500 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-gray-500"
+            href="#"
+            className="hidden lg:block inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 border-b-2 border-transparent hover:border-brand-500 dark:border-transparent dark:hover:border-brand-200 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white text-gray-500 transition-all duration-500"
           >
             Sign up
           </Link>

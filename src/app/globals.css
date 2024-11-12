@@ -6,7 +6,6 @@
 @import '@fontsource/open-sans/600.css'; /* Semi-bold weight */
 @import '@fontsource/open-sans/700.css'; /* Bold weight */
 
-
 html,
 body {
   max-width: 100vw;
@@ -67,8 +66,8 @@ a {
     --accent-foreground: 240 5.9% 10%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
+    --border: #e4e4e7; /* Updated to apply the custom border color */
+    --input: #e4e4e7; /* Optional: If input borders need the same color */
     --ring: 240 10% 3.9%;
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
@@ -94,7 +93,7 @@ a {
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
+    --border: #e4e4e7; /* Updated for dark mode as well */
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
     --chart-1: 220 70% 50%;
@@ -107,7 +106,7 @@ a {
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border; /* Applies the updated border color */
   }
   body {
     @apply bg-background text-foreground;

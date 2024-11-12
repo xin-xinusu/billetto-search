@@ -55,7 +55,7 @@ const Accordian: React.FC<AccordianProps> = ({ title, children }) => {
         {/* Animated Content Section */}
         <div
           ref={contentRef}
-          className={`transition-all duration-300 ease-in-out ${
+          className={`transition-all duration-100 ease-in-out ${
             isOpen ? 'max-h-screen opacity-100 pt-4' : 'max-h-0 opacity-0 pt-0'
           }`}
           style={{
