@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { generateMetadata, Metadata } from "@/utils/generateMetadata";
+import { generateMetadata } from "@/utils/generateMetadata";
 import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
 import EventImage from "@/components/Event/EventImage";
 import EventDetails from "@/components/Event/EventDetails";
@@ -13,10 +13,10 @@ import OrganiserInfo from "@/components/Event/OrganiserInfo";
 import Loader from "@/components/Loader/Loader";
 
 const EventPage: React.FC = () => {
-  const { id } = useParams();
+  const { id } = useParams(); // Get the event ID from the route
   const [event, setEvent] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [metadata, setMetadata] = useState<Metadata | null>(null);
+  const [metadata, setMetadata] = useState<any>(null);
 
   useEffect(() => {
     const fetchEventData = async () => {
@@ -30,7 +30,7 @@ const EventPage: React.FC = () => {
         const data = await res.json();
         setEvent(data);
 
-        // Generate metadata for this event
+        // Generate metadata locally
         const meta = generateMetadata(data);
         setMetadata(meta);
       } catch (error) {
@@ -55,7 +55,7 @@ const EventPage: React.FC = () => {
 
   return (
     <>
-      {/* Dynamically Render Metadata */}
+      {/* Render Metadata */}
       {metadata && (
         <>
           <title>{metadata.title}</title>
@@ -137,3 +137,4 @@ const EventPage: React.FC = () => {
 };
 
 export default EventPage;
+
