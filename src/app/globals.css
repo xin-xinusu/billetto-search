@@ -51,27 +51,6 @@ a {
 @layer base {
   :root {
     --font-sans: 'Open Sans', sans-serif;
-    --brand-50: #d9ecff;
-    --brand-100: #86c1fc;
-    --brand-200: #5eacfb;
-    --brand-300: #3698fa;
-    --brand-400: #0e83f9;
-    --brand-500: #056fda;
-    --brand-600: #0453a3;
-    --brand-700: #02376c;
-    --brand-800: #011b35;
-    --brand-900: #000;
-    --brand-secondary-0: #fff;
-    --brand-secondary-50: #f9fafb;
-    --brand-secondary-100: #f3f4f6;
-    --brand-secondary-200: #e5e7eb;
-    --brand-secondary-300: #d1d5db;
-    --brand-secondary-400: #9ca3af;
-    --brand-secondary-500: #6b7280;
-    --brand-secondary-600: #4b5563;
-    --brand-secondary-700: #374151;
-    --brand-secondary-800: #1f2937;
-    --brand-secondary-900: #111827;
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;

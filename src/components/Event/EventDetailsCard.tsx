@@ -1,6 +1,8 @@
 import React from "react";
 import Attendees from "./Attendees";
 import TicketInfo from "./TicketInfo";
+import { formatEventDate } from "@/utils/date-functions";
+import { generateTags } from "@/utils/useful-helpers";
 
 interface EventDetailsCardProps {
   availability: string,
@@ -23,26 +25,6 @@ interface EventDetailsCardProps {
     type: string,
     type_localized: string,
   };
-}
-
-function generateTags(categorization: any, location: any): string[] {
-  const tags: string[] = [];
-
-  // Add location-based tags
-  if (location.city) {
-    tags.push(`Events in ${location.city}`);
-  }
-  if (categorization.type_localized && location.city) {
-    tags.push(`${categorization.type_localized} in ${location.city}`);
-  }
-  if (categorization.category_localized && location.city) {
-    tags.push(`${categorization.category_localized} in ${location.city}`);
-  }
-  if (categorization.subcategory_localized && location.city) {
-    tags.push(`${categorization.subcategory_localized} in ${location.city}`);
-  }
-
-  return tags;
 }
 
 const EventDetailsCard: React.FC<EventDetailsCardProps> = ({
@@ -82,8 +64,8 @@ const EventDetailsCard: React.FC<EventDetailsCardProps> = ({
           <div className="space-y-4 border-gray-700 border-t pt-4 first:pt-0 first:border-none">
             <h4 className="text-sm text-white font-bold leading-4 m-0">Date</h4>
             <div className="text-gray-300 text-sm">
-              {new Date(startdate).toLocaleString()} -{" "}
-              {new Date(enddate).toLocaleString()}
+              {/* Format - User Friendly */}
+              {formatEventDate(startdate, enddate) }
             </div>
           </div>
 
@@ -129,12 +111,12 @@ const EventDetailsCard: React.FC<EventDetailsCardProps> = ({
             <div className="text-gray-300 text-sm">
               Payment methods accepted:
             </div>
-            <img src="https://bun2.billetto.com/assets/icon/apple-pay-08b333e5218a9bea5932811a6ee108d6da7af5a196d23994081a7a5df63e9aa9.svg" alt="Apple Pay" className="w-10 inline-flex" loading="lazy" />
-            <img src="https://bun2.billetto.com/assets/icon/google-pay-065e42966e3ce795563cfa7e500d0ed74afa6c8218062a12ef62924e2d130fd9.svg" alt="Google Pay" className="w-10 inline-flex" loading="lazy" />
-            <img src="https://bun2.billetto.com/assets/icon/visa-afc0fa1fdb54520c13c2c7e2ec5149503ed390a5c3cf1f9e7792e97e541e02b7.svg" alt="Visa" className="w-10 inline-flex" loading="lazy" />
-            <img src="https://bun2.billetto.com/assets/icon/mastercard-3a2f29c5e46a83b7d512a5f90c8134079685e0aa1338b96811d2819524da69bb.svg" alt="MasterCard" className="w-10 inline-flex" loading="lazy" />
-            <img src="https://bun2.billetto.com/assets/icon/amex-c4da4c43ad97d64f36a879b0dba214482e4ca40737be9f2af7f6e90afbb9de06.svg" alt="American Express" className="w-10 inline-flex" loading="lazy" />
-            <img src="https://bun2.billetto.com/assets/icon/klarna-20cc6aae14dbb09fafe45d082a6b15ecbfef4ba3b0e0a494eb37f45bf4c19a79.svg" alt="Klarna" className="w-10 inline-flex" loading="lazy" />
+            <img src="https://bun2.billetto.com/assets/icon/apple-pay-08b333e5218a9bea5932811a6ee108d6da7af5a196d23994081a7a5df63e9aa9.svg" alt="Apple Pay" className="w-10 inline-flex pr-2" loading="lazy" />
+            <img src="https://bun2.billetto.com/assets/icon/google-pay-065e42966e3ce795563cfa7e500d0ed74afa6c8218062a12ef62924e2d130fd9.svg" alt="Google Pay" className="w-10 inline-flex pr-2" loading="lazy" />
+            <img src="https://bun2.billetto.com/assets/icon/visa-afc0fa1fdb54520c13c2c7e2ec5149503ed390a5c3cf1f9e7792e97e541e02b7.svg" alt="Visa" className="w-10 inline-flex pr-2" loading="lazy" />
+            <img src="https://bun2.billetto.com/assets/icon/mastercard-3a2f29c5e46a83b7d512a5f90c8134079685e0aa1338b96811d2819524da69bb.svg" alt="MasterCard" className="w-10 inline-flex pr-2" loading="lazy" />
+            <img src="https://bun2.billetto.com/assets/icon/amex-c4da4c43ad97d64f36a879b0dba214482e4ca40737be9f2af7f6e90afbb9de06.svg" alt="American Express" className="w-10 inline-flex pr-2" loading="lazy" />
+            <img src="https://bun2.billetto.com/assets/icon/klarna-20cc6aae14dbb09fafe45d082a6b15ecbfef4ba3b0e0a494eb37f45bf4c19a79.svg" alt="Klarna" className="w-10 inline-flex pr-2" loading="lazy" />
           </div>
         </div>
       </div>

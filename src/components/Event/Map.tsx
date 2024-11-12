@@ -79,7 +79,7 @@ const Map = ({
         <div
           ref={mapContainer}
           className="min-w-full mapboxgl-map"
-          style={{ height: '480px', minWidth: '600px' }}
+          style={{ minHeight: '480px', minWidth: '300px' }}
         ></div>
 
         {/* Address and Directions */}
@@ -88,8 +88,6 @@ const Map = ({
             <p className="text-sm text-gray-500">{address}</p>
           </div>
           <div className='w-full md:w-auto'>
-
-          </div>
           <a
             href={`https://www.google.com/maps/dir/?api=1&destination=${coordinates.latitude},${coordinates.longitude}`}
             target="_blank"
@@ -98,6 +96,8 @@ const Map = ({
           >
             Get Directions
           </a>
+          </div>
+          
         </div>
       </details>
     </div>

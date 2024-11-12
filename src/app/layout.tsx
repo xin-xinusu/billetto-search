@@ -22,8 +22,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" style={{backgroundColor: '#1b1d1e'}}>
-      <body className={`${openSans.className}`} style={{backgroundColor: '#1b1d1e'}}>
+    <html 
+      lang="en" 
+      style={{
+        backgroundColor: '#1b1d1e',
+        height: '100%',
+        overflow: 'auto',
+      }}
+      className="js dark wf-roboto-n3-active wf-roboto-n4-active wf-roboto-i4-active wf-roboto-n5-active wf-roboto-n7-active wf-active"
+    >
+      <body 
+        className={`${openSans.className} controller-events action-show theme-dark show-searchbar`} 
+        style={{ backgroundColor: '#1b1d1e', height: '100%' }}
+      >
         <Header />
         {children}
       </body>

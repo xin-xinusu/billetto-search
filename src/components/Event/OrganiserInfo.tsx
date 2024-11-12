@@ -47,8 +47,8 @@ const OrganiserInfo: React.FC<OrganiserInfoProps> = ({ organiser }) => {
         <div className="flex justify-between items-center flex-wrap sm:flex-nowrap">
           {/* Left Section: Profile Picture + Name/Description */}
           <div>
-            <div className="text-white font-bold leading-4 block">
-              <div className="flex items-center gap-4">
+            <div className="text-white font-bold leading-4 block justify-between">
+              <div className="flex items-center gap-4 ">
                 <div className="shrink-0 size-12">
                   {profile_picture_url ? (
                     <img
@@ -73,18 +73,22 @@ const OrganiserInfo: React.FC<OrganiserInfoProps> = ({ organiser }) => {
                   <p className="m-0 text-sm text-gray-400">Event Organiser</p>
                 </div>
 
-                <div className="inline-flex items-center border font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-400 rounded-md px-4 py-2 text-sm text-gray-50 bg-gray-800 hover:bg-gray-700">
+                <div className='w-full inline-flex'>
+                  <a
+                    href={`#`}
+                    className="inline-flex items-center border font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-400 rounded-md px-4 py-2 text-sm text-gray-50 bg-gray-800 hover:bg-gray-700"
+                  >
+                    Contact
+                  </a>
+                </div>
+                {/* <div className="inline-flex items-center border font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-400 rounded-md px-4 py-2 text-sm text-gray-50 bg-gray-800 hover:bg-gray-700">
                   <button className="ml-4 mt-4 shrink-0 flex gap-4">
                     <span className="leading-none">Contact</span>
                   </button>
-                </div>
+                </div> */}
 
               </div>
             </div>
-            {/* Profile Picture */}
-            
-            
-          {/* Organiser Info */}
           <div>
             
             {profile_description && (
